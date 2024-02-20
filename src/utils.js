@@ -90,3 +90,12 @@ export const toRgb = (array) => {
 export const padding = (value, digit) => {
     return (Array(digit).join('0') + value).slice(-digit);
 }
+
+export const gradation = (pos) => {
+    const startHue = 240.0; // [°]
+    const endHue = 0.0;     // [°]
+    const hue = startHue * (1.0 - pos) + endHue * pos;  // [°]
+    const saturation = 1.0;
+    const lightness = 1.0;
+    return hsvToRgb(hue, saturation, lightness);
+}

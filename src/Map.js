@@ -3,7 +3,9 @@ import { useState, useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-import { toRgb } from './utils';
+import { toRgb, gradation } from './utils';
+
+const THRESHOLDS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 
 const data = {
   'type': 'FeatureCollection',
@@ -13,70 +15,56 @@ const data = {
       'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'
     }
   },
-  'features': [
-    {
-      'type': 'Feature',
-      'properties': {
-        'value': 0.0
-      },
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [
-          139.7,
-          36.0,
-        ]
-      }
-    },
-    {
-      'type': 'Feature',
-      'properties': {
-        'value': 0.0
-      },
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [
-          139.8,
-          36.0,
-        ]
-      }
-    },
-    {
-      'type': 'Feature',
-      'properties': {
-        'value': 0.0
-      },
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [
-          139.7,
-          36.1,
-        ]
-      }
-    },
-    {
-      'type': 'Feature',
-      'properties': {
-        'value': 0.0
-      },
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [
-          139.8,
-          36.1,
-        ]
-      }
-    },
-  ]
+  'features': []
 };
+
+// 中央を適当に高くする。0.0〜100.0
+for (let i = 0; i < 5; i++) {
+  for (let j = 0; j < 5; j++) {
+    data.features.push({
+      'type': 'Feature',
+      'properties': {
+        'value': ((i < 2) ? i : 4 - i) * ((j < 2) ? j : 4 - j) / 4.0 * 100.0,
+      },
+      'geometry': {
+        'type': 'Point',
+        'coordinates': [
+          139.7 + 0.01 * i,
+          36.0 + 0.01 * j,
+        ]
+      }
+    });
+  }
+}
+
+
+// 中央を適当に高くする。0.0〜100.0
+for (let i = 0; i < 5; i++) {
+  for (let j = 0; j < 5; j++) {
+    data.features.push({
+      'type': 'Feature',
+      'properties': {
+        'value': i / 4.0 * 100.0,
+      },
+      'geometry': {
+        'type': 'Point',
+        'coordinates': [
+          139.8 + 0.01 * i,
+          36.0 + 0.01 * j,
+        ]
+      }
+    });
+  }
+}
 
 
 export const useMap = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const popup = useRef(null);
-  const [lng, setLng] = useState(139.712);
-  const [lat, setLat] = useState(36.039);
-  const [zoom, setZoom] = useState(8);
+  const [lng, setLng] = useState(139.7);
+  const [lat, setLat] = useState(36.0);
+  const [zoom, setZoom] = useState(12);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -110,7 +98,7 @@ export const useMap = () => {
           'circle-stroke-color': 'gray',
           'circle-stroke-opacity': OPACITY,
           'circle-stroke-width': 1,
-          'circle-color': 'rgba(255, 0, 255, 0.5)',
+          'circle-color': makeCircleColor(),
           'circle-opacity': OPACITY,
         }
       });
@@ -173,3 +161,23 @@ export const useMap = () => {
 };
 
 export default useMap;
+
+const makeCircleColor = () => {
+  const colormap = THRESHOLDS
+    .reduce((acc, cur, idx) => {
+      acc[cur] = gradation(idx / (THRESHOLDS.length - 1));
+      return acc
+    }, {});
+
+  let circleColor = null;
+  circleColor = ["case"];
+
+  Object.keys(colormap)
+    .sort((a, b) => { return Number(a) < Number(b) ? 1 : -1; })  // 降順でソートする
+    .forEach(key => {
+      circleColor.push(["<=", Number(key), ["get", "value"]], toRgb(colormap[key]));
+    });
+  circleColor.push("rgb(255, 0, 255)"); // 想定していない値
+
+  return circleColor;
+}
