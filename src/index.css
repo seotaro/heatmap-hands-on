@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'YuGothic', 'Meiryo', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#map-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.maplibregl-popup .maplibregl-popup-content {
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+
+  padding: 0.5em;
+
+  font: 12px 'Hiragino Kaku Gothic ProN', 'YuGothic', 'Meiryo', 'sans-serif';
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+  color: black;
+  text-align: left;
+  border-radius: 1em;
+
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.maplibregl-popup-content .location {
+  margin-left: 0.5em;
+  font-size: 1.5em;
+  color: #333333;
+}
+
+.maplibregl-popup-content .value {
+  margin-left: 0.5em;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333333;
+}
+
+.maplibregl-popup-content ul {
+  margin: 0;
+  padding: 0;
+}
+
+.maplibregl-popup-content li {
+  list-style-type: none;
+  margin-left: 1.0em;
+}
