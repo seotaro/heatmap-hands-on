@@ -1,12 +1,12 @@
 {
-  "name": "heatmap",
+  "name": "heatmap-handson",
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
   "homepage": ".",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/seotaro/heatmap.git"
+    "url": "git+https://github.com/seotaro/heatmap-handson.git"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
