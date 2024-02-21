@@ -62,9 +62,9 @@ export const useMap = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const popup = useRef(null);
-  const [lng, setLng] = useState(139.7);
-  const [lat, setLat] = useState(36.0);
-  const [zoom, setZoom] = useState(12);
+  const [lng, setLng] = useState(139.77);
+  const [lat, setLat] = useState(36.02);
+  const [zoom, setZoom] = useState(11);
 
   const weightRef = useRef({ lower: 0.0, upper: 100.0 }); // lower〜upper を 0.0〜1.0 にマッピングする
   const radiusRef = useRef(50);
