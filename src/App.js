@@ -88,8 +88,9 @@ const Settings = (props) => {
             onChange={(_, newValue) => props.onChangeIntensity(newValue)}
             valueLabelDisplay="auto"
             track={false}
-            min={0}
-            max={100}
+            step={0.1}
+            min={0.0}
+            max={10.0}
             aria-labelledby="intensity-input-slider"
           />
         </Box>
