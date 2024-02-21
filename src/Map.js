@@ -103,6 +103,28 @@ export const useMap = () => {
         }
       });
 
+      // weight=単純リニア、color=単色、intensity=固定、radius=固定
+      map.current.addLayer({
+        id: 'sample-heatmap-layer',
+        type: 'heatmap',
+        source: 'sample-source',
+        paint: {
+          'heatmap-weight': [
+            'interpolate', ['linear'], ["get", "value"],
+            0, 0,
+            100, 1,
+          ],
+          'heatmap-color': [
+            'interpolate', ['linear'], ['heatmap-density'],
+            0, 'rgba(0, 0, 0, 0.5)',
+            1, 'rgba(255, 255, 255, 0.5)'
+          ],
+          'heatmap-intensity': 1,
+          'heatmap-radius': 50,
+          'heatmap-opacity': 1,
+        }
+      });
+
       map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
       popup.current = new maplibregl.Popup({
