@@ -66,6 +66,10 @@ export const useMap = () => {
   const [lat, setLat] = useState(36.0);
   const [zoom, setZoom] = useState(12);
 
+  const weightRef = useRef({ lower: 0.0, upper: 100.0 }); // lower〜upper を 0.0〜1.0 にマッピングする
+  const radiusRef = useRef(50);
+  const intensityRef = useRef(1);
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
 
@@ -111,16 +115,16 @@ export const useMap = () => {
         paint: {
           'heatmap-weight': [
             'interpolate', ['linear'], ["get", "value"],
-            0, 0,
-            100, 1,
+            weightRef.current.lower, 0,
+            weightRef.current.upper, 1,
           ],
+          'heatmap-intensity': intensityRef.current,
+          'heatmap-radius': radiusRef.current,
           'heatmap-color': [
             'interpolate', ['linear'], ['heatmap-density'],
             0, 'rgba(0, 0, 0, 0.5)',
             1, 'rgba(255, 255, 255, 0.5)'
           ],
-          'heatmap-intensity': 1,
-          'heatmap-radius': 50,
           'heatmap-opacity': 1,
         }
       });
@@ -179,8 +183,36 @@ export const useMap = () => {
     }
   }, []);
 
-  return [mapContainer];
+  const setHeatmapProperty = (props) => {
+    if (props.weight) weightRef.current = props.weight;
+    if (props.radius) radiusRef.current = props.radius;
+    if (props.intensity) intensityRef.current = props.intensity;
+
+    if (map.current.getLayer('sample-heatmap-layer')) {
+      if (props.weight) {
+        map.current.setPaintProperty('sample-heatmap-layer', 'heatmap-weight',
+          [
+            'interpolate', ['linear'], ["get", "value"],
+            weightRef.current.lower, 0,
+            weightRef.current.upper, 1,
+          ]
+        );
+      }
+
+      if (props.radius) {
+        map.current.setPaintProperty('sample-heatmap-layer', 'heatmap-radius', props.radius);
+      }
+
+      if (props.intensity) {
+        map.current.setPaintProperty('sample-heatmap-layer', 'heatmap-intensity', props.intensity);
+      }
+    }
+  }
+
+  return [mapContainer, { weight: weightRef.current, radius: radiusRef.current, intensity: intensityRef.current }, { setHeatmapProperty }];
 };
+
+
 
 export default useMap;
 
