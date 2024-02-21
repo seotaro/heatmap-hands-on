@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 import useMap from './Map';
 
@@ -29,7 +31,12 @@ const Settings = (props) => {
           flex: 1, m: 0, p: 0,
           display: 'flex', flexDirection: 'row', alignItems: 'center',
         }}>
-          <Typography sx={{ mx: 1, width: 100 }} id="weight-input-slider" variant="subtitle1" >weight</Typography>
+          <Box sx={{ width: 150, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Typography sx={{ ml: 1 }} id="weight-input-slider" variant="subtitle1" >weight</Typography>
+            <Tooltip title='スライダーの範囲を0.0〜1.0にマッピングする'>
+              <HelpOutlineOutlinedIcon fontSize='small' sx={{ ml: 1 }} />
+            </Tooltip>
+          </Box>
           <Slider
             sx={{ mx: 2, }}
             value={[props.weight.lower, props.weight.upper]}
@@ -46,7 +53,12 @@ const Settings = (props) => {
           flex: 1, m: 0, p: 0,
           display: 'flex', flexDirection: 'row', alignItems: 'center',
         }}>
-          <Typography sx={{ mx: 1, width: 100 }} id="radius-input-slider" variant="subtitle1" >radius</Typography>
+          <Box sx={{ width: 150, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Typography sx={{ ml: 1 }} id="radius-input-slider" variant="subtitle1" >radius</Typography>
+            {/* <Tooltip title='radius'>
+              <HelpOutlineOutlinedIcon fontSize='small' sx={{ ml: 1 }} />
+            </Tooltip> */}
+          </Box>
           <Slider
             sx={{ mx: 2, }}
             value={props.radius}
@@ -64,7 +76,12 @@ const Settings = (props) => {
           flex: 1, m: 0, p: 0,
           display: 'flex', flexDirection: 'row', alignItems: 'center',
         }}>
-          <Typography sx={{ mx: 1, width: 100 }} id="intensity-input-slider" variant="subtitle1" >intensity</Typography>
+          <Box sx={{ width: 150, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Typography sx={{ ml: 1 }} id="intensity-input-slider" variant="subtitle1" >intensity</Typography>
+            {/* <Tooltip title='intensity'>
+              <HelpOutlineOutlinedIcon fontSize='small' sx={{ ml: 1 }} />
+            </Tooltip> */}
+          </Box>
           <Slider
             sx={{ mx: 2, }}
             value={props.intensity}
